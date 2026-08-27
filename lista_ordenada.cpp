@@ -38,10 +38,21 @@ public:
         }
         return nullptr;
     }
+    T* encontrar(T e) {
+        T* low = arr;
+        T* high = arr + elem;
+        while (low < high) {
+            T* mid = low + (high - low) / 2;
+            if (fun(e, *mid))
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        return low;
+    }
     bool add(T e) {
         if (elem == tam) return false;
-        T* aux = arr;
-        while (aux < arr + elem && fun(e, *aux)) aux++;
+        T* aux = encontrar(e);
         for (T* p = arr + elem; p > aux; p--) *p = *(p - 1);
         *aux = e;
         elem++;
