@@ -31,7 +31,7 @@ public:
             T* mid = low + (high - low) / 2;
             if (*mid == e)
                 return mid;
-            if (fun(*mid, e))
+            if (fun(e, *mid))
                 low = mid + 1;
             else
                 high = mid - 1;
@@ -42,7 +42,7 @@ public:
         if (elem == tam) return false;
         T* aux = arr;
         while (aux < arr + elem && fun(e, *aux)) aux++;
-        for (T* p = arr + elem - 1; p >= aux; p--) *(p + 1) = *p;
+        for (T* p = arr + elem; p > aux; p--) *p = *(p - 1);
         *aux = e;
         elem++;
         return true;
