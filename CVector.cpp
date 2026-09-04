@@ -34,7 +34,7 @@ CVector::~CVector() {
 
 void CVector::expand() {
 	int* aux = new int[size * 2];
-	for (int* p = vec, *q = aux; p < vec + size; p++, q++) *q = *p;
+	for (int* p = vec, *q = aux; p < vec + elem; p++, q++) *q = *p;
 	delete vec;
 	vec = aux;
 	size *= 2;
@@ -42,7 +42,7 @@ void CVector::expand() {
 
 void CVector::collapse() {
 	int* aux = new int[size / 2];
-	for (int* p = vec, *q = aux; p < vec + size; p++, q++) *q = *p;
+	for (int* p = vec, *q = aux; p < vec + elem; p++, q++) *q = *p;
 	delete vec;
 	vec = aux;
 	size /= 2;
@@ -56,9 +56,10 @@ void CVector::push_front(int x) {
 }
 
 void CVector::pop_front() {
-	if (elem < (size / 2)) collapse();
+	if (elem == 0) return;
 	for (int* p = vec; p < vec + elem; p++) *p = *(p + 1);
 	elem--;
+	if (elem < (size / 2)) collapse();
 }
 
 void CVector::push_back(int x) {
@@ -68,8 +69,9 @@ void CVector::push_back(int x) {
 }
 
 void CVector::pop_back() {
-	if (elem < (size / 2)) collapse();
+	if (elem == 0) return;
 	elem--;
+	if (elem < (size / 2)) collapse();
 }
 
 int& CVector::operator[](int i) {
