@@ -75,7 +75,7 @@ void CVector::pop_back() {
 }
 
 int& CVector::operator[](int i) {
-	assert(i < size);
+	assert(i >= 0 && i < size);
 	return *(vec + i);
 }
 
