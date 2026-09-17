@@ -75,7 +75,7 @@ void CForward_list::pop_back()
 }
 int& CForward_list::operator[](int i)
 {
-    assert(i < elem);
+    assert(i >= 0 && i < elem);
     CNode* q = head;
     for(int k = 0; k < i; k++, q = q->next);
     return q->value;
