@@ -40,7 +40,12 @@ CForward_list::CForward_list()
 }
 CForward_list::~CForward_list()
 {
-    while(head) pop_front();
+    while(head)
+    {
+        CNode* t = head;
+        head = head->next;
+        delete t;
+    }
 }
 void CForward_list::push_front(int x)
 {
