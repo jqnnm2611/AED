@@ -37,9 +37,14 @@ CList::CList()
     head = tail = 0;
     elem = 0;
 }
-CList::~CList()
+CLlist::~CList()
 {
-    while(head) pop_front();
+    while(head)
+    {
+        CNode* t = head;
+        head = head->next;
+        delete t;
+    }
 }
 void CList::push_front(int x)
 {
