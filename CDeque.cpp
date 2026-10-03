@@ -53,6 +53,16 @@ CDeque::~CDeque()
 
 void CDeque::expand_map()
 {
+    int** new_map = new int*[map_size * 2];
+    CDeque_iterator aux1, aux2;
+    aux1.chunk = new_map + (map_size / 2);
+    for(aux2.chunk = start.chunk; aux2.chunk <= finish.chunk; aux1.chunk++, aux2.chunk++)
+        *aux1.chunk = *aux2.chunk;
+    start.chunk = new_map + (map_size / 2);
+    finish.chunk = aux1.chunk - 1;
+    delete[] map;
+    map = new_map;
+    map_size *= 2;
 }
 
 void CDeque::push_front(int x)
@@ -79,6 +89,22 @@ void CDeque::push_back(int x)
 
 void CDeque::pop_back()
 {
+    assert(nelem > 0);
+    finish.offset--;
+    if(finish.offset == *finish.chunk)
+    {
+        if(finish.chunk != start.chunk)
+        {
+            delete[] *finish.chunk;
+            finish.chunk--;
+            finish.offset = *finish.chunk + chunk_size;
+        }
+        else
+        {
+            finish.offset = *finish.chunk;
+        }
+    }
+    nelem--;
 }
 
 int& CDeque::operator[](int i)
