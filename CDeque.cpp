@@ -67,16 +67,36 @@ void CDeque::expand_map()
 
 void CDeque::push_front(int x)
 {
+    if(start.offset == *start.chunk)
+    {
+        if(start.chunk == map) expand_map();
+        start.chunk--;
+        *start.chunk = new int[chunk_size];
+        start.offset = *start.chunk + chunk_size - 1;
+    }
+    else start.offset--;
+    *start.offset = x;
+    nelem++;
 }
 
 void CDeque::pop_front()
 {
+    assert(nelem > 0);
+    start.offset++;
+    if(start.offset == *start.chunk + chunk_size)
+    {
+        if(start.chunk != finish.chunk)
+        {
+            delete[] *start.chunk;
+            start.chunk++;
+            start.offset = *start.chunk;
+        }
+    }
+    nelem--;
 }
 
 void CDeque::push_back(int x)
 {
-    *finish.offset = x;
-    finish.offset++;
     if(finish.offset == *finish.chunk + chunk_size)
     {
         if(finish.chunk == map + map_size - 1) expand_map();
@@ -84,6 +104,8 @@ void CDeque::push_back(int x)
         *finish.chunk = new int[chunk_size];
         finish.offset = *finish.chunk;
     }
+    *finish.offset = x;
+    finish.offset++;
     nelem++;
 }
 
@@ -99,16 +121,19 @@ void CDeque::pop_back()
             finish.chunk--;
             finish.offset = *finish.chunk + chunk_size;
         }
-        else
-        {
-            finish.offset = *finish.chunk;
-        }
     }
     nelem--;
 }
 
 int& CDeque::operator[](int i)
 {
+    assert(i >= 0 && i < nelem);
+    int primero = *start.chunk + chunk_size - start.offset;
+    if(i < primero) return *(start.offset + i);
+    i -= primero;
+    int** chunk = start.chunk + 1 + i / chunk_size;
+    int* offset = *chunk + i % chunk_size;
+    return *offset;
 }
 
 int& CDeque::front()
