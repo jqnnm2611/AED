@@ -68,7 +68,7 @@ bool CTree::rem(int x)
     if ( (*p)->left && (*p)->right )
     {
         CNode** q = rep(p);
-        (*p)->v = (*q)->v;
+        (*p)->value = (*q)->value;
         p = q;
     }
     CNode* t = *p;
@@ -125,7 +125,7 @@ void CTree::postorder(CNode* n)
     postorder(n->right);
     cout << n->value << ' ';
 }
-void CTree::inorder_s(CNode* n)
+/*void CTree::inorder_s(CNode* n)
 {
     stack<pair<CNode*,int>> s;
     s.push({n,0});
@@ -138,7 +138,7 @@ void CTree::inorder_s(CNode* n)
                 //completar
         }
     }
-}
+}*/
 
 
 
