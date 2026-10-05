@@ -28,6 +28,9 @@ public:
     void preorder(CNode* n);
     void postorder(CNode* n);
     void inorder_s(CNode* n);
+    void reverse_s(CNode* n);
+    void preorder_s(CNode* n);
+    void postorder_s(CNode* n);
     void print();
 private:
     CNode* root;
@@ -125,23 +128,114 @@ void CTree::postorder(CNode* n)
     postorder(n->right);
     cout << n->value << ' ';
 }
-/*void CTree::inorder_s(CNode* n)
+void CTree::inorder_s(CNode* n)
 {
     stack<pair<CNode*,int>> s;
     s.push({n,0});
     while(!s.empty())
     {
-        auto e = s.top();
+        auto& e = s.top();
         switch(e.second)
         {
             case 0:
-                //completar
+                e.second = 1;
+                if(e.first->left) s.push({e.first->left,0});
+                break;
+            case 1:
+                e.second = 2;
+                cout << e.first->value << ' ';
+                break;
+            case 2:
+                e.second = 3;
+                if(e.first->right) s.push({e.first->right,0});
+                break;
+            case 3:
+                s.pop();
+                break;
         }
     }
-}*/
-
-
-
+}
+void CTree::reverse_s(CNode* n)
+{
+    stack<pair<CNode*,int>> s;
+    s.push({n,0});
+    while(!s.empty())
+    {
+        auto& e = s.top();
+        switch(e.second)
+        {
+            case 0:
+                e.second = 1;
+                if(e.first->right) s.push({e.first->right,0});
+                break;
+            case 1:
+                e.second = 2;
+                cout << e.first->value << ' ';
+                break;
+            case 2:
+                e.second = 3;
+                if(e.first->left) s.push({e.first->left,0});
+                break;
+            case 3:
+                s.pop();
+                break;
+        }
+    }
+}
+void CTree::preorder_s(CNode* n)
+{
+    stack<pair<CNode*,int>> s;
+    s.push({n,0});
+    while(!s.empty())
+    {
+        auto& e = s.top();
+        switch(e.second)
+        {
+            case 0:
+                e.second = 1;
+                cout << e.first->value << ' ';
+                break;
+            case 1:
+                e.second = 2;
+                if(e.first->left) s.push({e.first->left,0});
+                break;
+            case 2:
+                e.second = 3;
+                if(e.first->right) s.push({e.first->right,0});
+                break;
+            case 3:
+                s.pop();
+                break;
+        }
+    }
+}
+void CTree::postorder_s(CNode* n)
+{
+    stack<pair<CNode*,int>> s;
+    s.push({n,0});
+    while(!s.empty())
+    {
+        auto& e = s.top();
+        switch(e.second)
+        {
+            case 0:
+                e.second = 1;
+                if(e.first->left) s.push({e.first->left,0});
+                break;
+            case 1:
+                e.second = 2;
+                if(e.first->right) s.push({e.first->right,0});
+                break;
+            case 2:
+                e.second = 3;
+                cout << e.first->value << ' ';
+                break;
+            case 3:
+                s.pop();
+                break;
+        }
+    }
+}
 void CTree::print()
 {
     inorder(root);
