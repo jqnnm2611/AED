@@ -130,6 +130,30 @@ int prioridad(int x) {
 }
 
 
+int evaluar(CVector& salida) {
+    CVector pila(5);
+    for (int* p = salida.front(); p < salida.front() + salida.getElem(); p++) {
+        int x = *p;
+        if (!esOperador(x)) pila.push_back(x - '0');
+        else {
+            int b = pila.back();
+            pila.pop_back();
+            int a = pila.back();
+            pila.pop_back();
+            int resultado;
+            if (x == '+') resultado = a + b;
+            else if (x == '-') resultado = a - b;
+            else if (x == '*') resultado = a * b;
+            else resultado = a / b;
+            pila.push_back(resultado);
+        }
+    }
+    return pila.back();
+}
+
+
+
+
 int main() {
 
     CVector entrada(10);
@@ -179,6 +203,7 @@ int main() {
     entrada.print();
     cout << "Postfija: ";
     salida.print();
+    cout << "Resultado: " << evaluar(salida) << endl;
 
     return 0;
 }
