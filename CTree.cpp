@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stack>
 #include <utility>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
 struct CNode
@@ -31,7 +33,11 @@ public:
     void reverse_s(CNode* n);
     void preorder_s(CNode* n);
     void postorder_s(CNode* n);
+    void levelorder(CNode* n);
+    int maxh(CNode* n);
+    void maxh2(CNode* n, int h, int& mh);
     void print();
+    void print_h();
 private:
     CNode* root;
     bool brep;
@@ -130,6 +136,7 @@ void CTree::postorder(CNode* n)
 }
 void CTree::inorder_s(CNode* n)
 {
+    if(!n) return;
     stack<pair<CNode*,int>> s;
     s.push({n,0});
     while(!s.empty())
@@ -157,6 +164,7 @@ void CTree::inorder_s(CNode* n)
 }
 void CTree::reverse_s(CNode* n)
 {
+    if(!n) return;
     stack<pair<CNode*,int>> s;
     s.push({n,0});
     while(!s.empty())
@@ -184,6 +192,7 @@ void CTree::reverse_s(CNode* n)
 }
 void CTree::preorder_s(CNode* n)
 {
+    if(!n) return;
     stack<pair<CNode*,int>> s;
     s.push({n,0});
     while(!s.empty())
@@ -211,6 +220,7 @@ void CTree::preorder_s(CNode* n)
 }
 void CTree::postorder_s(CNode* n)
 {
+    if(!n) return;
     stack<pair<CNode*,int>> s;
     s.push({n,0});
     while(!s.empty())
@@ -236,9 +246,44 @@ void CTree::postorder_s(CNode* n)
         }
     }
 }
+void CTree::levelorder(CNode* n)
+{
+    if(!n) return;
+    queue<CNode*> q;
+    q.push(n);
+    while(!q.empty())
+    {
+        CNode* p = q.front();
+        q.pop();
+        cout << p->value << ' ';
+        if(p->left) q.push(p->left);
+        if(p->right) q.push(p->right);
+    }
+}
+int CTree::maxh(CNode* n)
+{
+    if(!n) return 0;
+    int l, r;
+    l = maxh(n->left);
+    r = maxh(n->right);
+    return max(l,r) + 1;
+}
+void CTree::maxh2(CNode* n, int h, int& mh)
+{
+    if(!n) return;
+    if(h > mh) mh = h;
+    maxh2(n->left,h+1,mh);
+    maxh2(n->right,h+1,mh);
+}
 void CTree::print()
 {
-    inorder(root);
+    inorder(root); //cambiar entre los recorridos para imprimir de distinta manera
+    cout << endl;
+}
+void CTree::print_h()
+{
+    cout << "Altura: ";
+    cout << maxh(root); //cambiar entre los métodos de altura para probar de distinta manera
     cout << endl;
 }
 
@@ -255,6 +300,7 @@ int main()
     t.ins(84);
     
     t.print();
+    t.print_h();
     
     return 0;
 }
