@@ -37,7 +37,7 @@ CList::CList()
     head = tail = 0;
     elem = 0;
 }
-CLlist::~CList()
+CList::~CList()
 {
     while(head)
     {
