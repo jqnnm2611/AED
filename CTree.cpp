@@ -38,6 +38,9 @@ public:
     void maxh2(CNode* n, int h, int& mh);
     void print();
     void print_h();
+    void inorder_rango(CNode* n, int a, int b);
+    void inorder_hojas(CNode* n);
+    void inorder_1hijo(CNode* n);
 private:
     CNode* root;
     bool brep;
@@ -281,6 +284,21 @@ void CTree::inorder_rango(CNode* n, int a, int b)
     if(n->value > a) inorder_rango(n->left, a, b);
     if(n->value >= a && n->value <= b) cout << n->value << ' ';
     if(n->value < b) inorder_rango(n->right, a, b);
+}
+void CTree::inorder_hojas(CNode* n)
+{
+    if(!n) return;
+    inorder_hojas(n->left);
+    if(!n->left && !n->right) cout << n->value << ' ';
+    inorder_hojas(n->right);
+}
+
+void CTree::inorder_1hijo(CNode* n)
+{
+    if(!n) return;
+    inorder_1hijo(n->left);
+    if((!n->left && n->right) || (n->left && !n->right)) cout << n->value << ' ';
+    inorder_1hijo(n->right);
 }
 void CTree::print()
 {
