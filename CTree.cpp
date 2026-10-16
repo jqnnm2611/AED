@@ -275,6 +275,13 @@ void CTree::maxh2(CNode* n, int h, int& mh)
     maxh2(n->left,h+1,mh);
     maxh2(n->right,h+1,mh);
 }
+void CTree::inorder_rango(CNode* n, int a, int b)
+{
+    if(!n) return;
+    if(n->value > a) inorder_rango(n->left, a, b);
+    if(n->value >= a && n->value <= b) cout << n->value << ' ';
+    if(n->value < b) inorder_rango(n->right, a, b);
+}
 void CTree::print()
 {
     inorder(root); //cambiar entre los recorridos para imprimir de distinta manera
