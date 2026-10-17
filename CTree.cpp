@@ -44,6 +44,8 @@ public:
     void borde_izquierdo(CNode* n);
     void borde_derecho(CNode* n);
     void perimetro(CNode* n);
+    void extremos_nivel(CNode* n);
+    void inorder_impares_rango(CNode* n, int a, int b);
 private:
     CNode* root;
     bool brep;
@@ -325,6 +327,55 @@ void CTree::perimetro(CNode* n)
     borde_izquierdo(n->left);
     inorder_hojas(n);
     borde_derecho(n->right);
+}
+void CTree::extremos_nivel(CNode* n)
+{
+    if(!n) return;
+    queue<CNode*> q;
+    q.push(n);
+    while(!q.empty())
+    {
+        int cant = q.size();
+        for(int aux = 1; aux <= cant; aux++){
+            CNode* p = q.front();
+            q.pop();
+            if (aux == 1 || aux == cant) cout << p->value << ' ';
+            if(p->left) q.push(p->left);
+            if(p->right) q.push(p->right);
+        }
+        cout << endl;
+    }
+}
+void CTree::inorder_impares_rango(CNode* n, int a, int b)
+{
+    if(!n) return;
+    stack<pair<CNode*,int>> s;
+    s.push({n,0});
+    while(!s.empty())
+    {
+        auto& e = s.top();
+        switch(e.second)
+        {
+            case 0:
+                e.second = 1;
+                if(e.first->left && e.first->value > a)
+                    s.push({e.first->left,0});
+                break;
+            case 1:
+                e.second = 2;
+                if(e.first->value >= a && e.first->value <= b && e.first->value % 2 != 0)
+                    cout << e.first->value << ' ';
+                break;
+            case 2:
+                e.second = 3;
+                if(e.first->right && e.first->value < b)
+                    s.push({e.first->right,0});
+                break;
+            case 3:
+                s.pop();
+                break;
+        }
+    }
 }
 void CTree::print()
 {
