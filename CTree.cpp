@@ -41,6 +41,9 @@ public:
     void inorder_rango(CNode* n, int a, int b);
     void inorder_hojas(CNode* n);
     void inorder_1hijo(CNode* n);
+    void borde_izquierdo(CNode* n);
+    void borde_derecho(CNode* n);
+    void perimetro(CNode* n);
 private:
     CNode* root;
     bool brep;
@@ -299,6 +302,29 @@ void CTree::inorder_1hijo(CNode* n)
     inorder_1hijo(n->left);
     if((!n->left && n->right) || (n->left && !n->right)) cout << n->value << ' ';
     inorder_1hijo(n->right);
+}
+void CTree::borde_izquierdo(CNode* n)
+{
+    if(!n || (!n->left && !n->right)) return;
+    cout << n->value << ' ';
+    if(n->left) borde_izquierdo(n->left);
+    else borde_izquierdo(n->right);
+}
+void CTree::borde_derecho(CNode* n)
+{
+    if(!n || (!n->left && !n->right)) return;
+    if(n->right) borde_derecho(n->right);
+    else borde_derecho(n->left);
+    cout << n->value << ' ';
+}
+void CTree::perimetro(CNode* n)
+{
+    if(!n) return;
+    cout << n->value << ' ';
+    if(!n->left && !n->right) return;
+    borde_izquierdo(n->left);
+    inorder_hojas(n);
+    borde_derecho(n->right);
 }
 void CTree::print()
 {
