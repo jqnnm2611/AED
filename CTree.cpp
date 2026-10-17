@@ -46,6 +46,7 @@ public:
     void perimetro(CNode* n);
     void extremos_nivel(CNode* n);
     void inorder_impares_rango(CNode* n, int a, int b);
+    void camino(CNode* n, int x);
 private:
     CNode* root;
     bool brep;
@@ -376,6 +377,14 @@ void CTree::inorder_impares_rango(CNode* n, int a, int b)
                 break;
         }
     }
+}
+void CTree::camino(CNode* n, int x)
+{
+    if(!n) return;
+    cout << n->value << ' ';
+    if(n->value == x) return;
+    if(n->value > x) camino(n->left, x);
+    if(n->value < x) camino(n->right, x);
 }
 void CTree::print()
 {
