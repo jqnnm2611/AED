@@ -20,7 +20,7 @@ template <class O>
 class CHeap
 {
     public:
-        CHeap(int s);
+        CHeap(int t);
         ~CHeap();
         void push(int x);
         void pop();
