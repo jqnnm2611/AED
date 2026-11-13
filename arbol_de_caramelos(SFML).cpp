@@ -184,7 +184,7 @@ void mostrarArbol(Node *original, Node *resultado)
 {
     sf::RenderWindow window(
         sf::VideoMode({1100u, 700u}),
-        "Distribute Candies in a Binary Tree"
+        "Árbol de Caramelos"
     );
 
     sf::Font font;
