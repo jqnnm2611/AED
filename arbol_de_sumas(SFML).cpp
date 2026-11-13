@@ -5,7 +5,8 @@
 
 using namespace std;
 
-struct Nodo {
+struct Nodo
+{
     Nodo(int v)
     {
         val = v;
@@ -21,12 +22,10 @@ Nodo* crearArbol(int* ini, int* fin)
     if (ini == fin) return nullptr;
 
     queue<Nodo*> q;
+    for (int* p = ini; p < fin; ++p) q.push(new Nodo(*p));
 
-    for (int* p = ini; p < fin; ++p) {
-        q.push(new Nodo(*p));
-    }
-
-    while (q.size() > 1) {
+    while (q.size() > 1)
+    {
         Nodo* izq = q.front();
         q.pop();
 
@@ -46,14 +45,12 @@ Nodo* crearArbol(int* ini, int* fin)
 void inorder(Nodo* n)
 {
     if (!n) return;
-
     inorder(n->left);
     cout << n->val << ' ';
     inorder(n->right);
 }
 
-void dibujarEnlace(sf::RenderWindow& ventana,
-                   sf::Vector2f inicio, sf::Vector2f fin)
+void dibujarEnlace(sf::RenderWindow& ventana, sf::Vector2f inicio, sf::Vector2f fin)
 {
     sf::VertexArray linea(sf::PrimitiveType::Lines, 2);
     linea[0].position = inicio;
@@ -64,8 +61,7 @@ void dibujarEnlace(sf::RenderWindow& ventana,
     ventana.draw(linea);
 }
 
-void dibujarArbol(sf::RenderWindow& ventana, const sf::Font& fuente,
-                  const Nodo* n, float izquierda, float derecha, float y)
+void dibujarArbol(sf::RenderWindow& ventana, const sf::Font& fuente, const Nodo* n, float izquierda, float derecha, float y)
 {
     if (!n) return;
 
@@ -78,13 +74,15 @@ void dibujarArbol(sf::RenderWindow& ventana, const sf::Font& fuente,
     const sf::Vector2f centro{x, y};
     const float yHijos = y + distanciaVertical;
 
-    if (n->left) {
+    if (n->left)
+    {
         const sf::Vector2f centroIzq{(izquierda + x) / 2.f, yHijos};
         dibujarEnlace(ventana, centro, centroIzq);
         dibujarArbol(ventana, fuente, n->left, izquierda, x, yHijos);
     }
 
-    if (n->right) {
+    if (n->right)
+    {
         const sf::Vector2f centroDer{(x + derecha) / 2.f, yHijos};
         dibujarEnlace(ventana, centro, centroDer);
         dibujarArbol(ventana, fuente, n->right, x, derecha, yHijos);
@@ -110,8 +108,8 @@ void dibujarArbol(sf::RenderWindow& ventana, const sf::Font& fuente,
 int main()
 {
     sf::Font fuente;
-    if (!fuente.openFromFile("arial.ttf") &&
-        !fuente.openFromFile("C:/Windows/Fonts/arial.ttf")) {
+    if (!fuente.openFromFile("arial.ttf") && !fuente.openFromFile("C:/Windows/Fonts/arial.ttf"))
+    {
         cerr << "No se encontro Arial. Coloca arial.ttf en la carpeta de trabajo.\n";
         return 1;
     }
@@ -121,21 +119,20 @@ int main()
 
     Nodo* root = crearArbol(A, A + n);
     inorder(root);
-    cout << '\n';
+    cout << endl;
 
     const unsigned int ancho = 1120;
     const unsigned int alto = 600;
 
-    sf::RenderWindow ventana(
-        sf::VideoMode({ancho, alto}),
-        "Arbol de sumas",
-        sf::Style::Titlebar | sf::Style::Close
-    );
+    sf::RenderWindow ventana(sf::VideoMode({ancho, alto}), "Arbol de sumas", sf::Style::Titlebar | sf::Style::Close);
     ventana.setFramerateLimit(60);
 
-    while (ventana.isOpen()) {
-        while (const auto evento = ventana.pollEvent()) {
-            if (evento->is<sf::Event::Closed>()) {
+    while (ventana.isOpen())
+    {
+        while (const auto evento = ventana.pollEvent())
+        {
+            if (evento->is<sf::Event::Closed>())
+            {
                 ventana.close();
             }
         }
