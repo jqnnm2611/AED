@@ -16,7 +16,7 @@ Nodo* crearArbol(int* ini, int* fin)
 {
     if (ini == fin) return nullptr;
     queue<Nodo*> q;
-    for (const int* p = ini; p < fin; ++p) q.push(new Nodo(*p));
+    for (int* p = ini; p < fin; ++p) q.push(new Nodo(*p));
     while (q.size() > 1) {
         Nodo* izq = q.front();
         q.pop();
