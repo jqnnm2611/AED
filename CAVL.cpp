@@ -19,6 +19,7 @@ class CAVL
 public:
     CAVL();
     void ins(int x);
+    bool rem(int x);
     bool find(int x);
     void print();
 
@@ -32,6 +33,9 @@ private:
     CNode* balancear(CNode* p);
     CNode* RecInsert(CNode* p, int dato);
     bool RecFind(CNode* p, int dato);
+    bool brep;
+    CNode** rep(CNode** p);
+    CNode* RecRemove(CNode* p, int dato, bool& eliminado);
     void inorder(CNode* p);
     void RecPrint(CNode* p, int nivel);
 };
@@ -39,6 +43,7 @@ private:
 CAVL::CAVL()
 {
     root = 0;
+    brep = 0;
 }
 
 int CAVL::altura(CNode* p)
@@ -103,6 +108,53 @@ CNode* CAVL::RecInsert(CNode* p, int dato)
     return balancear(p);
 }
 
+CNode** CAVL::rep(CNode** p)
+{
+    CNode** q = p;
+    if(brep == 1)
+    {
+        q = &((*q)->right);
+        while((*q)->left)
+            q = &((*q)->left);
+    }
+    else
+    {
+        q = &((*q)->left);
+        while((*q)->right)
+            q = &((*q)->right);
+    }
+    brep = !brep;
+    return q;
+}
+
+CNode* CAVL::RecRemove(CNode* p, int dato, bool& eliminado)
+{
+    if(!p) return 0;
+    if(dato < p->value)
+        p->left = RecRemove(p->left, dato, eliminado);
+    else if(dato > p->value)
+        p->right = RecRemove(p->right, dato, eliminado);
+    else
+    {
+        eliminado = true;
+        if(!p->left || !p->right)
+        {
+            CNode* aux = p->left ? p->left : p->right;
+            delete p;
+            return aux;
+        }
+        bool derecha = brep;
+        CNode** q = rep(&p);
+        int valor = (*q)->value;
+        p->value = valor;
+        if(derecha)
+            p->right = RecRemove(p->right, valor, eliminado);
+        else
+            p->left = RecRemove(p->left, valor, eliminado);
+    }
+    return balancear(p);
+}
+
 bool CAVL::RecFind(CNode* p, int dato)
 {
     if(!p) return 0;
@@ -130,6 +182,13 @@ void CAVL::RecPrint(CNode* p, int nivel)
 void CAVL::ins(int x)
 {
     root = RecInsert(root, x);
+}
+
+bool CAVL::rem(int x)
+{
+    bool eliminado = false;
+    root = RecRemove(root, x, eliminado);
+    return eliminado;
 }
 
 bool CAVL::find(int x)
@@ -160,5 +219,14 @@ int main()
     }
     cout << "Buscar 25: " << t.find(25) << endl;
     cout << "Buscar 99: " << t.find(99) << endl;
+    
+    cout << "\nEliminar 10: " << t.rem(10) << endl;
+    t.print();
+    
+    cout << "\nEliminar 30: " << t.rem(30) << endl;
+    t.print();
+    
+    cout << "\nEliminar 99: " << t.rem(99) << endl;
+    t.print();
     return 0;
 }
