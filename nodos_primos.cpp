@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <algorithm>
 #include <SFML/Graphics.hpp>
@@ -531,12 +530,7 @@ int main()
 {
     CAVL t;
 
-    int datos[] = {
-        50,
-        30, 70,
-        20, 40, 60, 80,
-        10, 25, 35, 45, 55, 65, 75, 90
-    };
+    int datos[] = {1, 2, 3, 5, 7, 11, 13, 15, 4, 6, 8, 9, 10, 12};
 
     for(int x : datos)
         t.ins(x);
