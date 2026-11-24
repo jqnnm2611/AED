@@ -44,11 +44,9 @@ public:
 private:
     CNode** rows;
     CNode** cols;
-
     int nrows, ncols;
 };
 
-// CONSTRUCTOR DE SMATRIX
 
 Smatrix::Smatrix(int r, int c)
 {
@@ -58,8 +56,6 @@ Smatrix::Smatrix(int r, int c)
     rows = new CNode*[nrows]();
     cols = new CNode*[ncols]();
 }
-
-// DESTRUCTOR
 
 Smatrix::~Smatrix()
 {
@@ -79,8 +75,6 @@ Smatrix::~Smatrix()
     delete[] cols;
 }
 
-// FIND VERTICAL
-
 bool Smatrix::findv(int x, int y, CNode**& pv)
 {
     if(x < 0 || x >= ncols || y < 0 || y >= nrows)
@@ -97,8 +91,6 @@ bool Smatrix::findv(int x, int y, CNode**& pv)
     return *pv && (*pv)->y == y;
 }
 
-// FIND HORIZONTAL
-
 bool Smatrix::findh(int x, int y, CNode**& ph)
 {
     if(x < 0 || x >= ncols || y < 0 || y >= nrows)
@@ -114,8 +106,6 @@ bool Smatrix::findh(int x, int y, CNode**& ph)
 
     return *ph && (*ph)->x == x;
 }
-
-// INSERTAR
 
 bool Smatrix::ins(int x, int y, int v)
 {
@@ -139,8 +129,6 @@ bool Smatrix::ins(int x, int y, int v)
     return true;
 }
 
-// ELIMINAR
-
 bool Smatrix::rem(int x, int y)
 {
     CNode** pv;
@@ -161,8 +149,6 @@ bool Smatrix::rem(int x, int y)
 
     return true;
 }
-
-// SET
 
 void Smatrix::set(int x, int y, int v)
 {
@@ -185,8 +171,6 @@ void Smatrix::set(int x, int y, int v)
     (*pv)->value = v;
 }
 
-// GET
-
 int Smatrix::get(int x, int y)
 {
     CNode** pv;
@@ -197,16 +181,12 @@ int Smatrix::get(int x, int y)
     return 0;
 }
 
-// CONSTRUCTOR DE CX
-
 Smatrix::CX::CX(Smatrix* m, int a, int b)
 {
     pm = m;
     x = a;
     y = b;
 }
-
-// OPERADOR = DE CX
 
 Smatrix::CX& Smatrix::CX::operator=(int n)
 {
@@ -215,14 +195,10 @@ Smatrix::CX& Smatrix::CX::operator=(int n)
     return *this;
 }
 
-// CONVERSION A INT DE CX
-
 Smatrix::CX::operator int()
 {
     return pm->get(x, y);
 }
-
-// OPERADOR () DE SMATRIX
 
 Smatrix::CX Smatrix::operator()(int x, int y)
 {
